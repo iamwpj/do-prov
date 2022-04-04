@@ -1,2 +1,4 @@
 # do-prov
-DigitalOcean provision
+DigitalOcean provisioning.
+
+More typy-typy, less clicky-clicky.
