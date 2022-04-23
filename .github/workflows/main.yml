@@ -1,6 +1,33 @@
-name: Deploy Infrastructure
+name: deploy
 
 on:
   push:
     branches:
       - master
+jobs:
+  tf_fmt:
+    name: load-it
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout Repo
+      uses: actions/checkout@v1
+
+    - name: Terraform Init
+      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TF_ACTION_WORKING_DIR: 'terraform'
+        DIGITALOCEAN_ACCESS_TOKEN:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        DIGITALOCEAN_TOKEN:  ${{ secrets.DIGITALOCEAN_TOKEN }}
+
+    - name: Terraform Validate
+      uses: hashicorp/terraform-github-actions/validate@v0.3.7
+
+    # - name: Terraform Apply
+    #   uses: hashicorp/terraform-github-actions/apply@v0.4.0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     TF_ACTION_WORKING_DIR: 'terraform'
+    #     DIGITALOCEAN_ACCESS_TOKEN:  ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    #     DIGITALOCEAN_TOKEN:  ${{ secrets.DIGITALOCEAN_TOKEN }}
